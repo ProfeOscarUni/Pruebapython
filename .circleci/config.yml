@@ -2,41 +2,31 @@ version: 2.1
 
 jobs:
   test:
+    working_directory: ~/circleci-python
     docker:
-      - image: cimg/base:stable
+      - image: "circleci/python:3.8.6"
     steps:
       - checkout
-      # Replace this with the actual test commands for your project
       - run:
-          name: Run tests
-          command: echo 'replace me with real tests!' && false
+          name: Install dependencies
+          command: |
+            python3 -m pip install --upgrade pip
+            python3 -m pip install pytest
+      - run: python3 -m pytest
+
 
   build:
+    working_directory: ~/circleci-python
     docker:
-      - image: cimg/base:stable
+      - image: "circleci/python:3.8.6"
     steps:
       - checkout
-      # Replace this with steps to build your project
-      - run:
-          name: Build the project
-          command: # Add your build commands here
-
-  deploy:
-    docker:
-      - image: cimg/base:stable
-    steps:
-      # Replace this with steps to deploy your project
-      - run:
-          name: Deploy the project
-          command: # Add your deploy commands here
+      - run: python3 main.py
 
 workflows:
-  example:
+  build_and_test:
     jobs:
-      - test
-      - build:
-          requires:
-            - test
-      - deploy:
+      - build
+      - test:
           requires:
             - build
