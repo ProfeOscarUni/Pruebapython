@@ -30,7 +30,7 @@ def test_LoginPass():
     assert loginPass
 
 def test_LoginFail():
-    loginFail = login("Pruebas","8912")
+    loginFail = login("Pruebas","1234")
     assert not loginFail
 
 if __name__ == '__main__':
